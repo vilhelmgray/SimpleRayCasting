@@ -238,7 +238,7 @@ Function getVertDist(ByRef slice_color As UInteger, ByVal x_pos As Integer, ByVa
                 Dim y_index As UInteger = Fix(check_pos_y / block_size)
                 Dim block_type As UInteger = map(y_index, x_index)
                 If block_type Then
-                        slice_color = getBlockColor(block_type)
+                        slice_color = getBlockColor(block_type) And &HAAAAAA
 
                         Dim pos_x_delta As Double = check_pos_x - x_pos
                         Dim pos_y_delta As Double = check_pos_y - y_pos
