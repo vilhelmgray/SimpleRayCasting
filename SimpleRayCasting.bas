@@ -187,21 +187,25 @@ Function getHoriDist(ByRef slice_color As UInteger, ByVal x_pos As Integer, ByVa
         Dim check_pos_y As Integer = Fix(y_pos / block_size) * block_size
         Dim check_pos_y_delta As Double
         If proj_ang < 180 Then
-                check_pos_y -= 1
                 check_pos_y_delta = -block_size
         Else
                 check_pos_y += block_size
                 check_pos_y_delta = block_size
         End If
 
-        While check_pos_y >=0 And check_pos_y < map_edge
+        While check_pos_y >= 0 And check_pos_y < map_edge
                 Dim check_pos_x As Double = x_pos + (y_pos - check_pos_y) / Tan(proj_ang * deg2rad)
                 If check_pos_x < 0 Or check_pos_x >= map_edge Then
                         Return -1
                 End If
 
                 Dim x_index As UInteger = Fix(check_pos_x / block_size)
-                Dim y_index As UInteger = Fix(check_pos_y / block_size)
+                Dim y_index As UInteger
+                If check_pos_y >= 1 And proj_ang < 180 Then
+                        y_index = Fix((check_pos_y - 1) / block_size)
+                Else
+                        y_index = Fix(check_pos_y / block_size)
+                End If
                 Dim block_type As UInteger = map(y_index, x_index)
                 If block_type Then
                         slice_color = getBlockColor(block_type)
@@ -220,21 +224,25 @@ End Function
 Function getVertDist(ByRef slice_color As UInteger, ByVal x_pos As Integer, ByVal y_pos As Integer, ByVal proj_ang As Double) As Double
         Dim check_pos_x As Integer = Fix(x_pos / block_size) * block_size
         Dim check_pos_x_delta As Double
-        If proj_ang < 90 Or proj_ang >= 270 Then
+        If proj_ang >= 90 And proj_ang < 270 Then
+                check_pos_x_delta = -block_size
+        Else
                 check_pos_x += block_size
                 check_pos_x_delta = block_size
-        Else
-                check_pos_x -= 1
-                check_pos_x_delta = -block_size
         End If
 
-        While check_pos_x >=0 And check_pos_x < map_edge
+        While check_pos_x >= 0 And check_pos_x < map_edge
                 Dim check_pos_y As Double = y_pos - (check_pos_x - x_pos) * Tan(proj_ang * deg2rad)
                 If check_pos_y < 0 Or check_pos_y >= map_edge Then
                         Return -1
                 End If
 
-                Dim x_index As UInteger = Fix(check_pos_x / block_size)
+                Dim x_index As UInteger
+                If check_pos_x >= 1 And (proj_ang >= 90 And proj_ang < 270) Then
+                        x_index = Fix((check_pos_x - 1) / block_size)
+                Else
+                        x_index = Fix(check_pos_x / block_size)
+                End If
                 Dim y_index As UInteger = Fix(check_pos_y / block_size)
                 Dim block_type As UInteger = map(y_index, x_index)
                 If block_type Then
