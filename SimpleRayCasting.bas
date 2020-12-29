@@ -59,41 +59,35 @@ Dim face_dir As Double = 270
 Do
         drawView(offset_x, offset_y, face_dir)
 
-        Do
-                Dim k As String = InKey$
-                Select Case k
-                        Case "a"
-                                face_dir += turn_ang
-                                If face_dir >= 360 Then
-                                        face_dir -= 360
-                                End If
-                                Exit Do
-                        Case "d"
-                                face_dir -= turn_ang
-                                If face_dir < 0 Then
-                                        face_dir += 360
-                                End If
-                                Exit Do
-                        Case "w"
-                                Dim new_offset_x As Integer = offset_x + Fix(Cos(face_dir * deg2rad) * move_speed)
-                                Dim new_offset_y As Integer = offset_y - Fix(Sin(face_dir * deg2rad) * move_speed)
-                                If checkCollision(new_offset_x, new_offset_y) = 0 Then
-                                        offset_x = new_offset_x
-                                        offset_y = new_offset_y
-                                End If
-                                Exit Do
-                        Case "s"
-                                Dim new_offset_x As Integer = offset_x - Fix(Cos(face_dir * deg2rad) * move_speed)
-                                Dim new_offset_y As Integer = offset_y + Fix(Sin(face_dir * deg2rad) * move_speed)
-                                If checkCollision(new_offset_x, new_offset_y) = 0 Then
-                                        offset_x = new_offset_x
-                                        offset_y = new_offset_y
-                                End If
-                                Exit Do
-                        Case "x"
-                                End
-                End Select
-        Loop 
+        Dim k As Integer = GetKey
+        Select Case k
+                Case Asc("a")
+                        face_dir += turn_ang
+                        If face_dir >= 360 Then
+                                face_dir -= 360
+                        End If
+                Case Asc("d")
+                        face_dir -= turn_ang
+                        If face_dir < 0 Then
+                                face_dir += 360
+                        End If
+                Case Asc("w")
+                        Dim new_offset_x As Integer = offset_x + Fix(Cos(face_dir * deg2rad) * move_speed)
+                        Dim new_offset_y As Integer = offset_y - Fix(Sin(face_dir * deg2rad) * move_speed)
+                        If checkCollision(new_offset_x, new_offset_y) = 0 Then
+                                offset_x = new_offset_x
+                                offset_y = new_offset_y
+                        End If
+                Case Asc("s")
+                        Dim new_offset_x As Integer = offset_x - Fix(Cos(face_dir * deg2rad) * move_speed)
+                        Dim new_offset_y As Integer = offset_y + Fix(Sin(face_dir * deg2rad) * move_speed)
+                        If checkCollision(new_offset_x, new_offset_y) = 0 Then
+                                offset_x = new_offset_x
+                                offset_y = new_offset_y
+                        End If
+                Case Asc("x")
+                        End
+        End Select
 Loop
 
 End
