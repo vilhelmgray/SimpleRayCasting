@@ -133,7 +133,9 @@ Sub castRay (ByVal x_pos As Integer, ByVal y_pos As Integer, ByVal proj_ang As D
         End If
         Dim slice_offset As UInteger = Fix((scrn_height - slice_height) / 2)
 
-        Line (proj_col, slice_offset)-(proj_col, slice_offset + slice_height), slice_color
+        Dim fog As UByte = NOT(&HFF * (dist/map_edge))
+        Dim fog_mask as UInteger = fog Or (fog Shl 8) Or (fog Shl 16)
+        Line (proj_col, slice_offset)-(proj_col, slice_offset + slice_height), slice_color And fog_mask
 End Sub
 
 Sub drawView (ByVal x_pos As Integer, ByVal y_pos As Integer, ByVal face_dir As Double)
@@ -240,7 +242,7 @@ Function getVertDist(ByRef slice_color As UInteger, ByVal x_pos As Integer, ByVa
                 Dim y_index As UInteger = Fix(check_pos_y / block_size)
                 Dim block_type As UInteger = map(y_index, x_index)
                 If block_type Then
-                        slice_color = getBlockColor(block_type) And &HAAAAAA
+                        slice_color = getBlockColor(block_type)
 
                         Dim pos_x_delta As Double = check_pos_x - x_pos
                         Dim pos_y_delta As Double = check_pos_y - y_pos
