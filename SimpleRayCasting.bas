@@ -142,8 +142,8 @@ Sub drawView (ByVal x_pos As Integer, ByVal y_pos As Integer, ByVal face_dir As 
         Const ceiling_color As UInteger = &H888888
         Const floor_color As UInteger = &H444444
 
-        Line (0, 0)-(scrn_end_x, horizon), &H888888, BF
-        Line (0, horizon + 1)-(scrn_end_x, scrn_height - 1), &H444444, BF
+        Line (0, 0)-(scrn_end_x, horizon), ceiling_color, BF
+        Line (0, horizon + 1)-(scrn_end_x, scrn_height - 1), floor_color, BF
 
         Const halfview As UInteger = Fix(scrn_width/2)
         Const proj_ang_step As Double = view_angle / halfview
